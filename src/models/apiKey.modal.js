@@ -9,7 +9,7 @@ const apiKeySchema = new Schema(
   {
     key: {
       type: String,
-      require: true,
+      required: true,
       unique: true,
       index: true,
     },
@@ -19,7 +19,7 @@ const apiKeySchema = new Schema(
     },
     permissions: {
       type: [Number],
-      require: true,
+      required: true,
       enum: [1, 2, 3, 4],
       default: [],
     },
