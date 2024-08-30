@@ -7,56 +7,51 @@ const bcrypt = require("bcrypt");
 const { randomBytes } = require("node:crypto");
 const { createTokenPair } = require("../utils/auth.utils");
 const { projectionData } = require("../utils/projection.utils");
+const { BadRequestError } = require("../core/responses/error.response");
 
 class AccessService {
+  static login = async ({ name, email, password }) => {};
+
   static signup = async ({ name, email, password }) => {
-    try {
-      const shopHolder = await shopModel.findOne({ email }).lean();
-      if (shopHolder) {
-        return {}; // throw error
-      }
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const newShopHolder = await shopModel.create({
-        name,
-        email,
-        password: hashedPassword,
-        roles: [SHOP_ROLES.SHOP],
+    const shopHolder = await shopModel.findOne({ email }).lean();
+    if (shopHolder) {
+      throw new BadRequestError("Error: Shop Already Registered.");
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newShopHolder = await shopModel.create({
+      name,
+      email,
+      password: hashedPassword,
+      roles: [SHOP_ROLES.SHOP],
+    });
+
+    if (newShopHolder) {
+      const privateKey = randomBytes(64).toString("hex");
+      const publicKey = randomBytes(64).toString("hex");
+
+      const keyToken = await KeyTokenService.createKeyToken({
+        userId: newShopHolder._id,
+        publicKey,
+        privateKey,
       });
 
-      if (newShopHolder) {
-        const privateKey = randomBytes(64).toString("hex");
-        const publicKey = randomBytes(64).toString("hex");
-
-        const keyToken = await KeyTokenService.createKeyToken({
-          userId: newShopHolder._id,
-          publicKey,
-          privateKey,
-        });
-
-        if (!keyToken) {
-          return {}; // throw error
-        }
-
-        const tokens = await createTokenPair(
-          { userId: newShopHolder._id, email },
-          publicKey,
-          privateKey
-        );
-
-        return {
-          code: 201,
-          metadata: {
-            shop: projectionData({
-              fields: ["_id", "name", "email"],
-              object: newShopHolder,
-            }),
-            tokens,
-          },
-        };
+      if (!keyToken) {
+        throw new BadRequestError("Error: Create KeyToken Failed.");
       }
-    } catch (error) {
-      console.log(error);
-      return {};
+
+      const tokens = await createTokenPair(
+        { userId: newShopHolder._id, email },
+        publicKey,
+        privateKey
+      );
+
+      return {
+        shop: projectionData({
+          fields: ["_id", "name", "email"],
+          object: newShopHolder,
+        }),
+        tokens,
+      };
     }
   };
 }
