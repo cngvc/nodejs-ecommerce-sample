@@ -2,7 +2,6 @@
 
 const JWT = require("jsonwebtoken");
 const { randomBytes } = require("node:crypto");
-const { asyncHandler } = require("../helpers/asyncHandler.middleware");
 const { HEADER } = require("../constants/header.constant");
 const {
   AuthFailedError,
@@ -56,8 +55,13 @@ const validateAuthentication = async (req, res, next) => {
   return next();
 };
 
+const verifyJWT = (token, keySecret) => {
+  return JWT.verify(token, keySecret);
+};
+
 module.exports = {
   createTokenPair,
   generateKeys,
   validateAuthentication,
+  verifyJWT,
 };

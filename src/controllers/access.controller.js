@@ -23,6 +23,13 @@ class AccessController {
       metadata: await AccessService.logout(req.keyToken),
     }).send(res);
   };
+
+  processRefreshToken = async (req, res, next) => {
+    return new OkRequestSuccess({
+      message: "Process Refresh Successfully",
+      metadata: await AccessService.processRefreshToken(req.body.refreshToken),
+    }).send(res);
+  };
 }
 
 module.exports = new AccessController();
