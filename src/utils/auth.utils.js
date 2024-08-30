@@ -2,28 +2,30 @@
 
 const JWT = require("jsonwebtoken");
 const { randomBytes } = require("node:crypto");
+const { asyncHandler } = require("../helpers/asyncHandler.middleware");
+const { HEADER } = require("../constants/header.constant");
+const {
+  AuthFailedError,
+  NotFoundError,
+} = require("../core/responses/error.response");
+const KeyTokenService = require("../services/keyToken.service");
 
 const createTokenPair = async (payload, publicKey, privateKey) => {
-  try {
-    const accessToken = JWT.sign(payload, publicKey, {
-      expiresIn: "2 days",
-    });
+  const accessToken = JWT.sign(payload, publicKey, {
+    expiresIn: "2 days",
+  });
 
-    const refreshToken = JWT.sign(payload, privateKey, {
-      expiresIn: "7 days",
-    });
-
-    JWT.verify(accessToken, publicKey, (err, decode) => {
-      if (err) {
-        console.log("Error verify", err);
-      } else {
-        console.log("Decode verify", decode);
-      }
-    });
-    return { accessToken, refreshToken };
-  } catch (error) {
-    console.log(error);
-  }
+  const refreshToken = JWT.sign(payload, privateKey, {
+    expiresIn: "7 days",
+  });
+  JWT.verify(accessToken, publicKey, (err, decode) => {
+    if (err) {
+      throw new AuthFailedError();
+    } else {
+      console.log("Decode verify", decode);
+    }
+  });
+  return { accessToken, refreshToken };
 };
 
 const generateKeys = () => {
@@ -36,7 +38,26 @@ const generateKeys = () => {
   };
 };
 
+const validateAuthentication = async (req, res, next) => {
+  const userId = req.headers[HEADER.CLIENT_ID];
+  if (!userId) throw new AuthFailedError();
+
+  const keyToken = await KeyTokenService.findByUserId(userId);
+  if (!keyToken) throw new NotFoundError("KeyStore Not Found");
+
+  const accessToken = req.headers[HEADER.AUTHORIZATION];
+  if (!accessToken) throw new AuthFailedError();
+
+  const decodedUser = JWT.verify(accessToken, keyToken.publicKey);
+  if (userId !== decodedUser.userId) {
+    throw new AuthFailedError();
+  }
+  req.keyToken = keyToken;
+  return next();
+};
+
 module.exports = {
   createTokenPair,
   generateKeys,
+  validateAuthentication,
 };

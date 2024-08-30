@@ -81,6 +81,10 @@ class AccessService {
       };
     }
   };
+  static logout = async (keyToken) => {
+    const deletedKeyToken = await KeyTokenService.removeKeyById(keyToken._id);
+    return deletedKeyToken;
+  };
 }
 
 module.exports = AccessService;
