@@ -1,13 +1,14 @@
 "use strict";
+const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
 const STATUS_CODE = {
-  OK: 200,
-  CREATED: 201,
+  OK: StatusCodes.OK,
+  CREATED: StatusCodes.CREATED,
 };
 
 const REASON_STATUS_CODE = {
-  OK: "Success",
-  CREATED: "Created",
+  OK: ReasonPhrases.OK,
+  CREATED: ReasonPhrases.CREATED,
 };
 
 class SuccessResponse {

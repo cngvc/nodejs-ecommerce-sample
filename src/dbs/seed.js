@@ -7,8 +7,8 @@ const shopModal = require("../models/shop.modal");
 
 class DbSeed {
   static createDbSeed = async () => {
-    await keyTokenModal.deleteMany({});
-    await shopModal.deleteMany({});
+    // await keyTokenModal.deleteMany({});
+    // await shopModal.deleteMany({});
 
     const key = await apiKeyModal.findOne({ isActive: true });
     if (!key) {

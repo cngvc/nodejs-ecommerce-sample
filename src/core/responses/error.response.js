@@ -1,13 +1,15 @@
 "use strict";
 
+const { StatusCodes, ReasonPhrases } = require("http-status-codes");
+
 const STATUS_CODE = {
-  FORBIDDEN: 403,
-  CONFLICT: 409,
+  FORBIDDEN: StatusCodes.FORBIDDEN,
+  CONFLICT: StatusCodes.CONFLICT,
 };
 
 const REASON_STATUS_CODE = {
-  FORBIDDEN: "Bad request error",
-  CONFLICT: "Conflict error",
+  FORBIDDEN: ReasonPhrases.BAD_REQUEST,
+  CONFLICT: ReasonPhrases.CONFLICT,
 };
 
 class ErrorResponse extends Error {
