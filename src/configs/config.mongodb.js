@@ -1,3 +1,5 @@
+"use strict";
+
 const dev = {
   app: {
     port: process.env.APP_PORT,

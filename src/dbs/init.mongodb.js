@@ -13,6 +13,7 @@ class Database {
     mongoose.set("debug", true);
     mongoose.set("debug", { color: true });
 
+    console.log(connectString);
     mongoose
       .connect(connectString, {
         maxPoolSize: 50,

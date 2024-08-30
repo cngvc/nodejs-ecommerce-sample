@@ -9,7 +9,7 @@ const countConnect = () => {
   console.log(`Number of connections: ${connectionCount}`);
 };
 
-const CHECK_OVERLOAD_INTERVAL_TIME = 5000;
+const CHECK_OVERLOAD_INTERVAL_TIME = 60000;
 
 const checkOverload = () => {
   setInterval(() => {
