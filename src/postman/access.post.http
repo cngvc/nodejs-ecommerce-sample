@@ -1,7 +1,7 @@
 @url_dev=http://localhost:3055/v1/api
 
 ### signup
-POST {{url_dev}}/shops/signup
+POST {{url_dev}}/auth/shops/signup
 Content-Type: application/json
 x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d412dd28ffe281525915e92f596670681193c32076cd0dd7f0427e6cd0300c
 
@@ -12,7 +12,7 @@ x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d41
 }
 
 ### login
-POST {{url_dev}}/shops/login
+POST {{url_dev}}/auth/shops/login
 Content-Type: application/json
 x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d412dd28ffe281525915e92f596670681193c32076cd0dd7f0427e6cd0300c
 
@@ -22,20 +22,16 @@ x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d41
 }
 
 ### logout
-POST {{url_dev}}/shops/logout
+POST {{url_dev}}/auth/shops/logout
 Content-Type: application/json
 x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d412dd28ffe281525915e92f596670681193c32076cd0dd7f0427e6cd0300c
-x-client-id: 66d1bea3afc997054e986917 
+x-client-id: 66d1bea3afc997054e986917
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmQxYmVhM2FmYzk5NzA1NGU5ODY5MTciLCJlbWFpbCI6ImpvaG5kb2UrMUBnbWFpbC5jb20iLCJpYXQiOjE3MjUwMzM2NTIsImV4cCI6MTcyNTIwNjQ1Mn0.LHGYEXYprbfvkbyeCfBEjq6FwbxR5gJKFskufhtKhrE
 
 
 ### process refresh token
-POST {{url_dev}}/shops/process-refresh-token
+POST {{url_dev}}/auth/shops/process-refresh-token
 Content-Type: application/json
 x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d412dd28ffe281525915e92f596670681193c32076cd0dd7f0427e6cd0300c
 x-client-id: 66d1bea3afc997054e986917
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmQxYmVhM2FmYzk5NzA1NGU5ODY5MTciLCJlbWFpbCI6ImpvaG5kb2UrMUBnbWFpbC5jb20iLCJpYXQiOjE3MjUwMzY5ODUsImV4cCI6MTcyNTIwOTc4NX0.sashO2MQS1hyfVrSIoJgZfLG0sbru58emovWCaNBfL8
-
-{
-  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmQxYmVhM2FmYzk5NzA1NGU5ODY5MTciLCJlbWFpbCI6ImpvaG5kb2UrMUBnbWFpbC5jb20iLCJpYXQiOjE3MjUwMzY5ODUsImV4cCI6MTcyNTY0MTc4NX0.SopP5rsuPFIrdXdDOcNAPYFUtBPUcgOQoxthWqJI0yo"
-}
+x-refresh-token-id: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmQxYmVhM2FmYzk5NzA1NGU5ODY5MTciLCJlbWFpbCI6ImpvaG5kb2UrMUBnbWFpbC5jb20iLCJpYXQiOjE3MjUwNTk3NDQsImV4cCI6MTcyNTY2NDU0NH0.9d6NrxUC2mQTFqn-aVakrwlcx_FpXtTEc8kz3qS3qNE

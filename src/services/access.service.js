@@ -18,7 +18,7 @@ const {
 const ShopService = require("../services/shop.service");
 
 class AccessService {
-  static login = async ({ email, password, refreshToken = null }) => {
+  static login = async ({ email, password }) => {
     const foundShop = await ShopService.findByEmail({ email });
     if (!foundShop) throw new BadRequestError("Shop was not registered");
     const isMatched = bcrypt.compare(password, foundShop.password);
@@ -87,33 +87,30 @@ class AccessService {
     return deletedKeyToken;
   };
 
-  static processRefreshToken = async (refreshToken) => {
-    const usedRefreshToken =
-      await KeyTokenService.findByRefreshTokenInRefreshTokensUsed(refreshToken);
-    if (usedRefreshToken) {
-      const { userId } = verifyJWT(refreshToken, usedRefreshToken.privateKey);
+  static processRefreshToken = async ({ refreshToken, user, keyToken }) => {
+    const { userId, email } = user;
+
+    if (keyToken.refreshTokensUsed.includes(refreshToken)) {
       await KeyTokenService.deleteByUserId(userId);
       throw new ForbiddenRequestError("Something was wrong, please re-login");
     }
-    const shopHolderToken = await KeyTokenService.findByRefreshToken(
-      refreshToken
-    );
-    if (!shopHolderToken) {
+
+    if (keyToken.refreshToken !== refreshToken) {
       throw new AuthFailedError("Shop was not registered");
     }
-    const { email } = verifyJWT(refreshToken, shopHolderToken.privateKey);
+
     const foundShop = await ShopService.findByEmail({ email });
     if (!foundShop) {
       throw new AuthFailedError("Shop was not registered");
     }
     const tokens = await createTokenPair(
       { userId: foundShop._id, email },
-      shopHolderToken.publicKey,
-      shopHolderToken.privateKey
+      keyToken.publicKey,
+      keyToken.privateKey
     );
     // update shop holder's token
     await KeyTokenService.updateAndTrackRefreshTokenById(
-      shopHolderToken._id,
+      keyToken._id,
       refreshToken,
       tokens.refreshToken
     );

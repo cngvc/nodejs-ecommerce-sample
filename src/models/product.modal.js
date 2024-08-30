@@ -27,12 +27,14 @@ const productSchema = new Schema(
       required: true,
     },
     type: {
-      type: Number,
+      type: String,
       required: true,
-      enum: ["Electronics", "Clothing", "Furniture"],
+      enum: ["Electronic", "Clothing", "Furniture"],
     },
     shop: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "Shop",
     },
     attributes: {
       type: Schema.Types.Mixed,
@@ -45,5 +47,47 @@ const productSchema = new Schema(
   }
 );
 
+const clothingSchema = new Schema(
+  {
+    brand: {
+      type: String,
+      required: true,
+    },
+    size: {
+      type: String,
+    },
+    material: {
+      type: String,
+    },
+  },
+  {
+    timestamps: true,
+    collection: "Clothes",
+  }
+);
+
+const electronicSchema = new Schema(
+  {
+    manufacturer: {
+      type: String,
+      required: true,
+    },
+    model: {
+      type: String,
+    },
+    color: {
+      type: String,
+    },
+  },
+  {
+    timestamps: true,
+    collection: "Electronics",
+  }
+);
+
 //Export the model
-module.exports = model(DOCUMENT_NAME, productSchema);
+module.exports = {
+  productModal: model(DOCUMENT_NAME, productSchema),
+  clothingModal: model("Clothing", clothingSchema),
+  electronicModal: model("Electronic", electronicSchema),
+};

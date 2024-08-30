@@ -44,6 +44,18 @@ const validateAuthentication = async (req, res, next) => {
   const keyToken = await KeyTokenService.findByUserId(userId);
   if (!keyToken) throw new NotFoundError("KeyStore Not Found");
 
+  if (req.headers[HEADER.REFRESH_TOKEN]) {
+    const refreshToken = req.headers[HEADER.REFRESH_TOKEN];
+    const decodedUser = JWT.verify(refreshToken, keyToken.privateKey);
+    if (userId !== decodedUser.userId) {
+      throw new AuthFailedError();
+    }
+    req.keyToken = keyToken;
+    req.user = decodedUser;
+    req.refreshToken = refreshToken;
+    return next();
+  }
+
   const accessToken = req.headers[HEADER.AUTHORIZATION];
   if (!accessToken) throw new AuthFailedError();
 
@@ -52,6 +64,7 @@ const validateAuthentication = async (req, res, next) => {
     throw new AuthFailedError();
   }
   req.keyToken = keyToken;
+  req.user = decodedUser;
   return next();
 };
 
