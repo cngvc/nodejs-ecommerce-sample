@@ -5,18 +5,62 @@ const {
   productModal,
   clothingModal,
   electronicModal,
+  furnitureModal,
 } = require("../models/product.modal");
+const ProductRepository = require("../models/repositories/product.repo");
 
 class ProductFactory {
+  static productRegistry = {};
+
+  static registerProductType = (type, classRef) => {
+    ProductFactory.productRegistry[type] = classRef;
+  };
+
   static createProduct = async (type, payload) => {
-    switch (type) {
-      case "Electronic":
-        return new Electronic(payload).createProduct();
-      case "Clothing":
-        return new Clothing(payload).createProduct();
-      default:
-        throw new BadRequestError("Invalid product type");
+    const productClass = ProductFactory.productRegistry[type];
+    if (!productClass) {
+      throw new BadRequestError("Invalid product type");
     }
+    return new productClass(payload).createProduct();
+  };
+
+  static searchByUser = async ({ keySearch }) => {
+    return await ProductRepository.searchByUser({ keySearch });
+  };
+
+  static findOne = async ({ product }) => {
+    return await ProductRepository.findOne({
+      product,
+      unselect: ["__v"],
+    });
+  };
+
+  static findAll = async ({ limit = 50, sort = "ctime", page = 1, filter }) => {
+    return await ProductRepository.findAll({
+      limit,
+      sort,
+      page,
+      filter,
+      select: ["name", "price", "thumb"],
+    });
+  };
+
+  static findAllDraftByShop = async ({ shop, limit = 50, skip = 0 }) => {
+    const query = { shop, isDraft: true };
+    return await ProductRepository.find({ query, limit, skip });
+  };
+
+  static findAllPublishedByShop = async ({ shop, limit = 50, skip = 0 }) => {
+    const query = { shop, isPublished: true };
+    return await ProductRepository.find({ query, limit, skip });
+  };
+
+  static publishByShop = async ({ shop, product }) => {
+    return await ProductRepository.publishByShop({ shop, product });
+  };
+
+  static unpublishByShop = async ({ shop, product }) => {
+    return await ProductRepository.unpublishByShop({ shop, product });
   };
 }
 
@@ -79,5 +123,26 @@ class Electronic extends Product {
     return newProduct;
   }
 }
+
+class Furniture extends Product {
+  async createProduct() {
+    const newFurniture = await furnitureModal.create({
+      ...this.attributes,
+      shop: this.shop,
+    });
+    if (!newFurniture) {
+      throw new BadRequestError("New furniture created error");
+    }
+    const newProduct = await super.createProduct(newElectronic._id);
+    if (!newProduct) {
+      throw new BadRequestError("New product created error");
+    }
+    return newProduct;
+  }
+}
+
+ProductFactory.registerProductType("Clothing", Clothing);
+ProductFactory.registerProductType("Electronic", Electronic);
+ProductFactory.registerProductType("Furniture", Furniture);
 
 module.exports = ProductFactory;

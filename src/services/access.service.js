@@ -9,7 +9,7 @@ const {
   generateKeys,
   verifyJWT,
 } = require("../utils/auth.utils");
-const { projectionData } = require("../utils/projection.utils");
+const { projectionData } = require("../utils/mongo.utils");
 const {
   BadRequestError,
   ForbiddenRequestError,

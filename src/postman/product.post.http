@@ -5,7 +5,7 @@ POST {{url_dev}}/products/
 Content-Type: application/json
 x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d412dd28ffe281525915e92f596670681193c32076cd0dd7f0427e6cd0300c
 x-client-id: 66d1bea3afc997054e986917
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmQxYmVhM2FmYzk5NzA1NGU5ODY5MTciLCJlbWFpbCI6ImpvaG5kb2UrMUBnbWFpbC5jb20iLCJpYXQiOjE3MjUwNDcyOTksImV4cCI6MTcyNTIyMDA5OX0.OZ07W7h6dEmnRQCT3ZESsYNTnpcZ1F3kzXDNiXaMbuQ
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmQxYmVhM2FmYzk5NzA1NGU5ODY5MTciLCJlbWFpbCI6ImpvaG5kb2UrMUBnbWFpbC5jb20iLCJpYXQiOjE3MjUyNzA0NTEsImV4cCI6MTcyNTQ0MzI1MX0.DfBBdrDMtcHe-j-hN6ZjxkYmoAWVA4o7OhXIVd2ylxI
 
 {
   "name": "Samsung Galaxy S21",
@@ -20,3 +20,41 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmQxYmVhM2Fm
     "color": "Phantom Gray"
   }
 }
+
+### get all products
+GET  {{url_dev}}/products?limit=5&skip=0
+Content-Type: application/json
+x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d412dd28ffe281525915e92f596670681193c32076cd0dd7f0427e6cd0300c
+ 
+### get one products
+GET  {{url_dev}}/products/66d58a72a08569f25df2a673
+Content-Type: application/json
+x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d412dd28ffe281525915e92f596670681193c32076cd0dd7f0427e6cd0300c
+ 
+### search products
+GET  {{url_dev}}/products/search?q=galaxy
+Content-Type: application/json
+x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d412dd28ffe281525915e92f596670681193c32076cd0dd7f0427e6cd0300c
+ 
+### get draft products
+GET  {{url_dev}}/products/drafts
+Content-Type: application/json
+x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d412dd28ffe281525915e92f596670681193c32076cd0dd7f0427e6cd0300c
+x-client-id: 66d1bea3afc997054e986917
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmQxYmVhM2FmYzk5NzA1NGU5ODY5MTciLCJlbWFpbCI6ImpvaG5kb2UrMUBnbWFpbC5jb20iLCJpYXQiOjE3MjUyNzA0NTEsImV4cCI6MTcyNTQ0MzI1MX0.DfBBdrDMtcHe-j-hN6ZjxkYmoAWVA4o7OhXIVd2ylxI
+ 
+### publish products
+PUT  {{url_dev}}/products/publish-product/66d58a72a08569f25df2a673
+Content-Type: application/json
+x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d412dd28ffe281525915e92f596670681193c32076cd0dd7f0427e6cd0300c
+x-client-id: 66d1bea3afc997054e986917
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmQxYmVhM2FmYzk5NzA1NGU5ODY5MTciLCJlbWFpbCI6ImpvaG5kb2UrMUBnbWFpbC5jb20iLCJpYXQiOjE3MjUyNzA0NTEsImV4cCI6MTcyNTQ0MzI1MX0.DfBBdrDMtcHe-j-hN6ZjxkYmoAWVA4o7OhXIVd2ylxI
+ 
+
+### get published products
+GET  {{url_dev}}/products/published
+Content-Type: application/json
+x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d412dd28ffe281525915e92f596670681193c32076cd0dd7f0427e6cd0300c
+x-client-id: 66d1bea3afc997054e986917
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmQxYmVhM2FmYzk5NzA1NGU5ODY5MTciLCJlbWFpbCI6ImpvaG5kb2UrMUBnbWFpbC5jb20iLCJpYXQiOjE3MjUyNzA0NTEsImV4cCI6MTcyNTQ0MzI1MX0.DfBBdrDMtcHe-j-hN6ZjxkYmoAWVA4o7OhXIVd2ylxI
+ 
