@@ -2,6 +2,7 @@
 
 const ProductFactory = require("../factories/product.factory");
 const ProductRepository = require("../models/repositories/product.repo");
+const InventoryRepository = require("../models/repositories/inventory.repo");
 
 class ProductService {
   static productRegistry = {};
@@ -11,8 +12,16 @@ class ProductService {
   };
 
   static createProduct = async (type, payload) => {
-    const product = ProductFactory.createProductInstance(type, payload);
-    return await product.createProduct();
+    const productInstance = ProductFactory.createProductInstance(type, payload);
+    const newProduct = await productInstance.createProduct();
+    if (newProduct) {
+      await InventoryRepository.createInventory({
+        productId: newProduct._id,
+        shopId: newProduct.shop,
+        stock: newProduct.quantity,
+      });
+    }
+    return newProduct;
   };
 
   static updateProduct = async (type, id, payload) => {
@@ -51,12 +60,12 @@ class ProductService {
     return await ProductRepository.find({ query, limit, skip });
   };
 
-  static publishByShop = async ({ shop, id }) => {
-    return await ProductRepository.publishByShop({ shop, id });
+  static publishByShop = async ({ shopId, id }) => {
+    return await ProductRepository.publishByShop({ shopId, id });
   };
 
-  static unpublishByShop = async ({ shop, id }) => {
-    return await ProductRepository.unpublishByShop({ shop, id });
+  static unpublishByShop = async ({ shopId, id }) => {
+    return await ProductRepository.unpublishByShop({ shopId, id });
   };
 }
 

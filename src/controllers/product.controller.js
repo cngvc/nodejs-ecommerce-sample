@@ -72,7 +72,7 @@ class ProductController {
   publishByShop = async (req, res) => {
     return new OkRequestSuccess({
       metadata: await ProductService.publishByShop({
-        shop: req.user.userId,
+        shopId: req.user.userId,
         id: req.params.id,
       }),
     }).send(res);
@@ -81,7 +81,7 @@ class ProductController {
   unpublishByShop = async (req, res) => {
     return new OkRequestSuccess({
       metadata: await ProductService.unpublishByShop({
-        shop: req.user.userId,
+        shopId: req.user.userId,
         id: req.params.id,
       }),
     }).send(res);

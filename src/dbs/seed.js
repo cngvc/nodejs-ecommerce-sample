@@ -5,6 +5,7 @@ const apiKeyModal = require("../models/apiKey.modal");
 const keyTokenModal = require("../models/keyToken.modal");
 const shopModal = require("../models/shop.modal");
 const { productModal, electronicModal } = require("../models/product.modal");
+const inventoryModal = require("../models/inventory.modal");
 
 class DbSeed {
   static createDbSeed = async () => {
@@ -13,6 +14,7 @@ class DbSeed {
 
     // await productModal.deleteMany({});
     // await electronicModal.deleteMany({});
+    // await inventoryModal.deleteMany({});
 
     const key = await apiKeyModal.findOne({ isActive: true });
     if (!key) {

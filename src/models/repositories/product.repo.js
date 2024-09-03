@@ -59,9 +59,9 @@ class ProductRepository {
     return results;
   };
 
-  static publishByShop = async ({ shop, id }) => {
+  static publishByShop = async ({ shopId, id }) => {
     const foundShop = await productModal.findOne({
-      shop: new Types.ObjectId(shop),
+      shop: new Types.ObjectId(shopId),
       _id: new Types.ObjectId(id),
     });
     if (!foundShop) return null;
@@ -71,9 +71,9 @@ class ProductRepository {
     return foundShop;
   };
 
-  static unpublishByShop = async ({ shop, id }) => {
+  static unpublishByShop = async ({ shopId, id }) => {
     const foundShop = await productModal.findOne({
-      shop: new Types.ObjectId(shop),
+      shop: new Types.ObjectId(shopId),
       _id: new Types.ObjectId(id),
     });
     if (!foundShop) return null;
