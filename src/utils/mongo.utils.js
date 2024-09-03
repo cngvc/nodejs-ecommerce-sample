@@ -1,6 +1,8 @@
 "use strict";
 
 const pick = require("lodash/pick");
+const pickBy = require("lodash/pickBy");
+const identity = require("lodash/identity");
 
 const projectionData = ({ fields = [], object = {} }) => {
   return pick(object, fields);
@@ -14,4 +16,26 @@ const unselectData = (select = []) => {
   return Object.fromEntries(select.map((el) => [el, 0]));
 };
 
-module.exports = { projectionData, selectData, unselectData };
+const deleteFalsely = (obj) => {
+  return pickBy(obj, identity);
+};
+
+const flattenNestedObject = (obj, prefix = "", result = {}) => {
+  for (const [key, value] of Object.entries(obj)) {
+    const newPrefix = prefix ? `${prefix}.${key}` : key;
+    if (value && typeof value === "object" && !Array.isArray(value)) {
+      return flattenNestedObject(value, newPrefix, result);
+    } else {
+      result[newPrefix] = value;
+    }
+  }
+  return result;
+};
+
+module.exports = {
+  projectionData,
+  selectData,
+  unselectData,
+  deleteFalsely,
+  flattenNestedObject,
+};

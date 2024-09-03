@@ -22,15 +22,15 @@ class Clothing extends Product {
   }
 
   async updateProduct(productId) {
-    const payload = this;
+    const payload = deleteFalsely(this);
     if (payload.attributes) {
       await ProductRepository.update({
         id: productId,
-        payload,
+        payload: flattenNestedObject(payload.attributes),
         model: clothingModal,
       });
     }
-    return await super.updateProduct(productId, payload);
+    return await super.updateProduct(productId, flattenNestedObject(payload));
   }
 }
 

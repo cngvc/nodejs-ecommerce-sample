@@ -4,6 +4,7 @@ const Product = require("./product.class");
 const { furnitureModal } = require("../../models/product.modal");
 const { BadRequestError } = require("../../core/responses/error.response");
 const ProductRepository = require("../repositories/product.repo");
+const { flattenNestedObject } = require("../../utils/mongo.utils");
 
 class Furniture extends Product {
   async createProduct() {
@@ -22,15 +23,15 @@ class Furniture extends Product {
   }
 
   async updateProduct(productId) {
-    const payload = this;
+    const payload = deleteFalsely(this);
     if (payload.attributes) {
       await ProductRepository.update({
         id: productId,
-        payload,
+        payload: flattenNestedObject(payload.attributes),
         model: furnitureModal,
       });
     }
-    return await super.updateProduct(productId, payload);
+    return await super.updateProduct(productId, flattenNestedObject(payload));
   }
 }
 

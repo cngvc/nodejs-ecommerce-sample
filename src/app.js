@@ -25,7 +25,7 @@ app.use(
 // db
 require("./dbs/init.mongodb");
 countConnect();
-checkOverload();
+// checkOverload();
 
 // route
 app.use(require("./routes"));

@@ -4,6 +4,10 @@ const Product = require("./product.class");
 const { electronicModal } = require("../../models/product.modal");
 const { BadRequestError } = require("../../core/responses/error.response");
 const ProductRepository = require("../repositories/product.repo");
+const {
+  deleteFalsely,
+  flattenNestedObject,
+} = require("../../utils/mongo.utils");
 
 class Electronic extends Product {
   async createProduct() {
@@ -22,15 +26,15 @@ class Electronic extends Product {
   }
 
   async updateProduct(productId) {
-    const payload = this;
+    const payload = deleteFalsely(this);
     if (payload.attributes) {
       await ProductRepository.update({
         id: productId,
-        payload,
+        payload: flattenNestedObject(payload.attributes),
         model: electronicModal,
       });
     }
-    return await super.updateProduct(productId, payload);
+    return await super.updateProduct(productId, flattenNestedObject(payload));
   }
 }
 

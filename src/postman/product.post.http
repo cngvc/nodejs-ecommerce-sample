@@ -44,10 +44,12 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmQxYmVhM2Fm
 
 {
   "price": 1299.99,
+  "quantity": null,
+  "ratingsAverage": 5,
   "type": "Electronic",
   "attributes": {
     "manufacturer": "Apple",
-    "model": "iPhone 14 Pro Max Ultra 2"
+    "model": "iPhone 14 Pro Max Ultra"
   }
 }
 
