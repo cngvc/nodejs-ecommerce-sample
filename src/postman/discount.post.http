@@ -27,9 +27,29 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmQxYmVhM2Fm
 }
 
 ### find products by discount code
-GET {{url_dev}}/discounts/SUMMER2024/products
+GET {{url_dev}}/discounts/products?code=SUMMER2024&shopId=66d1bea3afc997054e986917
+Content-Type: application/json
+x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d412dd28ffe281525915e92f596670681193c32076cd0dd7f0427e6cd0300c
+
+### find discounts by shop
+GET {{url_dev}}/discounts/
 Content-Type: application/json
 x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d412dd28ffe281525915e92f596670681193c32076cd0dd7f0427e6cd0300c
 x-client-id: 66d1bea3afc997054e986917
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmQxYmVhM2FmYzk5NzA1NGU5ODY5MTciLCJlbWFpbCI6ImpvaG5kb2UrMUBnbWFpbC5jb20iLCJpYXQiOjE3MjUzNTYzNzQsImV4cCI6MTcyNTUyOTE3NH0.RuqNbPkjykE3btp8lrv--gxnQTT6-3LEHpHiIgVs5n0
 
+### calculate discount
+POST {{url_dev}}/discounts/calculate-amount
+Content-Type: application/json
+x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d412dd28ffe281525915e92f596670681193c32076cd0dd7f0427e6cd0300c
+
+{
+  "shopId": "66d1bea3afc997054e986917",
+  "code": "SUMMER20",
+  "userId": "2",
+  "products": [{
+    "_id": "66d6d2c8403791e1c06ed321",
+    "price": 120,
+    "quantity": 5
+  }]
+}

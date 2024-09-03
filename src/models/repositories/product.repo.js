@@ -19,7 +19,7 @@ const queryProducts = async ({ query, limit, skip }) => {
 };
 
 class ProductRepository {
-  static findAll = async ({ limit, sort, page, filter, select }) => {
+  static findSelect = async ({ limit, sort, page, filter, select }) => {
     const skip = (page - 1) * limit;
     const sortBy = sort === "ctime" ? { _id: -1 } : { _id: 1 };
     const products = productModel
@@ -33,14 +33,14 @@ class ProductRepository {
     return products;
   };
 
-  static findOne = async ({ id, unselect }) => {
+  static findOneUnselect = async ({ id, unselect }) => {
     return await productModel
       .findOne({ _id: convertToObjectId(id) })
       .select(unselectData(unselect))
       .lean();
   };
 
-  static find = async ({ query, limit, skip }) => {
+  static findMany = async ({ query, limit, skip }) => {
     return await queryProducts({ query, limit, skip });
   };
 

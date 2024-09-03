@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.get("/search", asyncHandler(ProductsController.getListSearchProduct));
 router.get("/:id", asyncHandler(ProductsController.getOne));
-router.get("/", asyncHandler(ProductsController.getAll));
+router.get("/", asyncHandler(ProductsController.getMany));
 
 module.exports = router;

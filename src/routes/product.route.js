@@ -16,11 +16,8 @@ router.put(
   asyncHandler(ProductsController.unpublishByShop)
 );
 
-router.get("/drafts", asyncHandler(ProductsController.getAllDraftsByShop));
-router.get(
-  "/published",
-  asyncHandler(ProductsController.getAllPublishedByShop)
-);
+router.get("/drafts", asyncHandler(ProductsController.getDraftsByShop));
+router.get("/published", asyncHandler(ProductsController.getPublishedByShop));
 router.patch("/:id", asyncHandler(ProductsController.updateProduct));
 router.post("/", asyncHandler(ProductsController.createProduct));
 

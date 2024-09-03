@@ -34,14 +34,14 @@ class ProductService {
   };
 
   static findOne = async ({ id }) => {
-    return await ProductRepository.findOne({
+    return await ProductRepository.findOneUnselect({
       id,
       unselect: ["__v"],
     });
   };
 
-  static findAll = async ({ limit = 50, sort = "ctime", page = 1, filter }) => {
-    return await ProductRepository.findAll({
+  static find = async ({ limit = 50, sort = "ctime", page = 1, filter }) => {
+    return await ProductRepository.findSelect({
       limit,
       sort,
       page,
@@ -50,15 +50,14 @@ class ProductService {
     });
   };
 
-  static findAllDraftByShop = async ({ shopId, limit = 50, skip = 0 }) => {
+  static findDraftByShop = async ({ shopId, limit = 50, skip = 0 }) => {
     const query = { shop: shopId, isDraft: true };
-    console.log("query", query);
-    return await ProductRepository.find({ query, limit, skip });
+    return await ProductRepository.findMany({ query, limit, skip });
   };
 
-  static findAllPublishedByShop = async ({ shopId, limit = 50, skip = 0 }) => {
+  static findPublishedByShop = async ({ shopId, limit = 50, skip = 0 }) => {
     const query = { shop: shopId, isPublished: true };
-    return await ProductRepository.find({ query, limit, skip });
+    return await ProductRepository.findMany({ query, limit, skip });
   };
 
   static publishByShop = async ({ shopId, id }) => {

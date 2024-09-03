@@ -38,23 +38,23 @@ class ProductController {
     }).send(res);
   };
 
-  getAll = async (req, res) => {
+  getMany = async (req, res) => {
     return new OkRequestSuccess({
-      metadata: await ProductService.findAll(req.query),
+      metadata: await ProductService.find(req.query),
     }).send(res);
   };
 
-  getAllDraftsByShop = async (req, res) => {
+  getDraftsByShop = async (req, res) => {
     return new OkRequestSuccess({
-      metadata: await ProductService.findAllDraftByShop({
+      metadata: await ProductService.findDraftByShop({
         shopId: req.user.userId,
       }),
     }).send(res);
   };
 
-  getAllPublishedByShop = async (req, res) => {
+  getPublishedByShop = async (req, res) => {
     return new OkRequestSuccess({
-      metadata: await ProductService.findAllPublishedByShop({
+      metadata: await ProductService.findPublishedByShop({
         shopId: req.user.userId,
       }),
     }).send(res);

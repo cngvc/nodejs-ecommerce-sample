@@ -1,7 +1,10 @@
 "use strict";
 
 const DiscountService = require("../services/discount.service");
-const { CreatedRequestSuccess } = require("../core/responses/success.response");
+const {
+  CreatedRequestSuccess,
+  OkRequestSuccess,
+} = require("../core/responses/success.response");
 
 class DiscountController {
   createDiscount = async (req, res) => {
@@ -17,12 +20,44 @@ class DiscountController {
   };
 
   findProductsByDiscount = async (req, res) => {
-    return new CreatedRequestSuccess({
+    return new OkRequestSuccess({
       metadata: await DiscountService.findProductsByDiscount({
+        ...req.query,
+      }),
+    }).send(res);
+  };
+
+  findDiscountsByShop = async (req, res) => {
+    return new OkRequestSuccess({
+      metadata: await DiscountService.findDiscountsByShop({
+        ...req.query,
         shopId: req.user.userId,
-        code: req.params.code,
-        limit: req.query.limit,
-        page: req.query.page,
+      }),
+    }).send(res);
+  };
+
+  deleteDiscount = async (req, res) => {
+    return new OkRequestSuccess({
+      metadata: await DiscountService.deleteDiscount({
+        ...req.body,
+        shopId: req.user.userId,
+      }),
+    }).send(res);
+  };
+
+  cancelDiscount = async (req, res) => {
+    return new OkRequestSuccess({
+      metadata: await DiscountService.cancelDiscount({
+        ...req.body,
+        shopId: req.user.shopId,
+      }),
+    }).send(res);
+  };
+
+  calculateDiscountAmount = async (req, res) => {
+    return new OkRequestSuccess({
+      metadata: await DiscountService.calculateDiscountAmount({
+        ...req.body,
       }),
     }).send(res);
   };
