@@ -1,7 +1,7 @@
 "use strict";
 
 const { Types } = require("mongoose");
-const inventoryModal = require("../inventory.modal");
+const inventoryModel = require("../inventory.model");
 
 class InventoryRepository {
   static createInventory = async ({
@@ -10,7 +10,7 @@ class InventoryRepository {
     stock,
     location = "unknown",
   }) => {
-    return await inventoryModal.create({
+    return await inventoryModel.create({
       product: new Types.ObjectId(productId),
       shop: new Types.ObjectId(shopId),
       stock,

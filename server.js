@@ -2,8 +2,8 @@
 
 const app = require("./src/app");
 const DbSeed = require("./src/dbs/seed");
-const keyTokenModal = require("./src/models/keyToken.modal");
-const shopModal = require("./src/models/shop.modal");
+const keyTokenModel = require("./src/models/keyToken.model");
+const shopModel = require("./src/models/shop.model");
 
 const PORT = 3055;
 

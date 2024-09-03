@@ -1,7 +1,7 @@
 "use strict";
 
 const { SHOP_ROLES } = require("../constants/roles.constant");
-const shopModel = require("../models/shop.modal");
+const shopModel = require("../models/shop.model");
 const KeyTokenService = require("../services/keyToken.service");
 const bcrypt = require("bcrypt");
 const { createTokenPair, generateKeys } = require("../utils/auth.utils");

@@ -1,6 +1,6 @@
 "use strict";
 
-const shopModal = require("../models/shop.modal");
+const shopModel = require("../models/shop.model");
 
 class ShopService {
   static findByEmail = async ({
@@ -13,7 +13,7 @@ class ShopService {
       roles: 1,
     },
   }) => {
-    return await shopModal.findOne({ email }).select(select).lean();
+    return await shopModel.findOne({ email }).select(select).lean();
   };
 }
 

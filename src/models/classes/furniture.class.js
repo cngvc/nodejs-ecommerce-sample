@@ -1,14 +1,14 @@
 "use strict";
 
 const Product = require("./product.class");
-const { furnitureModal } = require("../../models/product.modal");
+const { furnitureModel } = require("../product.model");
 const { BadRequestError } = require("../../core/responses/error.response");
 const ProductRepository = require("../repositories/product.repo");
 const { flattenNestedObject } = require("../../utils/mongo.utils");
 
 class Furniture extends Product {
   async createProduct() {
-    const newFurniture = await furnitureModal.create({
+    const newFurniture = await furnitureModel.create({
       ...this.attributes,
       shop: this.shop,
     });
@@ -28,7 +28,7 @@ class Furniture extends Product {
       await ProductRepository.update({
         id: productId,
         payload: flattenNestedObject(payload.attributes),
-        model: furnitureModal,
+        model: furnitureModel,
       });
     }
     return await super.updateProduct(productId, flattenNestedObject(payload));

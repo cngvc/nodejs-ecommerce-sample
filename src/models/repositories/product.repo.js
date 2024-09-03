@@ -1,11 +1,11 @@
 "use strict";
 
 const { Types } = require("mongoose");
-const { productModal } = require("../product.modal");
+const { productModel } = require("../product.model");
 const { selectData, unselectData } = require("../../utils/mongo.utils");
 
 const queryProducts = async ({ query, limit, skip }) => {
-  return await productModal
+  return await productModel
     .find(query)
     .populate("shop", "-_id name email")
     .sort({ updatedAt: -1 })
@@ -18,7 +18,7 @@ class ProductRepository {
   static findAll = async ({ limit, sort, page, filter, select }) => {
     const skip = (page - 1) * limit;
     const sortBy = sort === "ctime" ? { _id: -1 } : { _id: 1 };
-    const products = productModal
+    const products = productModel
       .find({ ...filter, isPublished: true, isDraft: false })
       .sort(sortBy)
       .skip(skip)
@@ -30,7 +30,7 @@ class ProductRepository {
   };
 
   static findOne = async ({ id, unselect }) => {
-    return await productModal
+    return await productModel
       .findOne({ _id: new Types.ObjectId(id) })
       .select(unselectData(unselect))
       .lean();
@@ -42,7 +42,7 @@ class ProductRepository {
 
   static searchByUser = async ({ keySearch }) => {
     const regexSearch = new RegExp(keySearch);
-    const results = await productModal
+    const results = await productModel
       .find(
         {
           $text: { $search: regexSearch },
@@ -60,7 +60,7 @@ class ProductRepository {
   };
 
   static publishByShop = async ({ shopId, id }) => {
-    const foundShop = await productModal.findOne({
+    const foundShop = await productModel.findOne({
       shop: new Types.ObjectId(shopId),
       _id: new Types.ObjectId(id),
     });
@@ -72,7 +72,7 @@ class ProductRepository {
   };
 
   static unpublishByShop = async ({ shopId, id }) => {
-    const foundShop = await productModal.findOne({
+    const foundShop = await productModel.findOne({
       shop: new Types.ObjectId(shopId),
       _id: new Types.ObjectId(id),
     });

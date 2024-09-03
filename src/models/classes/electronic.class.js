@@ -1,7 +1,7 @@
 "use strict";
 
 const Product = require("./product.class");
-const { electronicModal } = require("../../models/product.modal");
+const { electronicModel } = require("../product.model");
 const { BadRequestError } = require("../../core/responses/error.response");
 const ProductRepository = require("../repositories/product.repo");
 const {
@@ -11,7 +11,7 @@ const {
 
 class Electronic extends Product {
   async createProduct() {
-    const newElectronic = await electronicModal.create({
+    const newElectronic = await electronicModel.create({
       ...this.attributes,
       shop: this.shop,
     });
@@ -31,7 +31,7 @@ class Electronic extends Product {
       await ProductRepository.update({
         id: productId,
         payload: flattenNestedObject(payload.attributes),
-        model: electronicModal,
+        model: electronicModel,
       });
     }
     return await super.updateProduct(productId, flattenNestedObject(payload));

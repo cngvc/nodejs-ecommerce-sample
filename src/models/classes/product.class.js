@@ -1,6 +1,6 @@
 "use strict";
 
-const { productModal } = require("../product.modal");
+const { productModel } = require("../product.model");
 const ProductRepository = require("../repositories/product.repo");
 
 class Product {
@@ -25,14 +25,14 @@ class Product {
   }
 
   async createProduct(productId) {
-    return await productModal.create({ ...this, _id: productId });
+    return await productModel.create({ ...this, _id: productId });
   }
 
   async updateProduct(productId, payload) {
     return await ProductRepository.update({
       id: productId,
       payload,
-      model: productModal,
+      model: productModel,
     });
   }
 }

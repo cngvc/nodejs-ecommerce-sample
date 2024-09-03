@@ -1,24 +1,24 @@
 "use strict";
 
 const { randomBytes } = require("node:crypto");
-const apiKeyModal = require("../models/apiKey.modal");
-const keyTokenModal = require("../models/keyToken.modal");
-const shopModal = require("../models/shop.modal");
-const { productModal, electronicModal } = require("../models/product.modal");
-const inventoryModal = require("../models/inventory.modal");
+const apiKeyModel = require("../models/apiKey.model");
+const keyTokenModel = require("../models/keyToken.model");
+const shopModel = require("../models/shop.model");
+const { productModel, electronicModel } = require("../models/product.model");
+const inventoryModel = require("../models/inventory.model");
 
 class DbSeed {
   static createDbSeed = async () => {
-    // await keyTokenModal.deleteMany({});
-    // await shopModal.deleteMany({});
+    // await keyTokenModel.deleteMany({});
+    // await shopModel.deleteMany({});
 
-    // await productModal.deleteMany({});
-    // await electronicModal.deleteMany({});
-    // await inventoryModal.deleteMany({});
+    // await productModel.deleteMany({});
+    // await electronicModel.deleteMany({});
+    // await inventoryModel.deleteMany({});
 
-    const key = await apiKeyModal.findOne({ isActive: true });
+    const key = await apiKeyModel.findOne({ isActive: true });
     if (!key) {
-      await apiKeyModal.create({
+      await apiKeyModel.create({
         isActive: true,
         key: randomBytes(64).toString("hex"),
         permissions: [1],

@@ -1,7 +1,7 @@
 "use strict";
 
 const { Types } = require("mongoose");
-const keyTokenModal = require("../models/keyToken.modal");
+const keyTokenModel = require("../models/keyToken.model");
 
 class KeyTokenService {
   static createKeyToken = async ({
@@ -10,7 +10,7 @@ class KeyTokenService {
     privateKey,
     refreshToken,
   }) => {
-    const tokens = await keyTokenModal.findOneAndUpdate(
+    const tokens = await keyTokenModel.findOneAndUpdate(
       { user: userId },
       {
         publicKey,
@@ -27,19 +27,19 @@ class KeyTokenService {
   };
 
   static findByUserId = async (userId) => {
-    return await keyTokenModal
+    return await keyTokenModel
       .findOne({ user: new Types.ObjectId(userId) })
       .lean();
   };
 
   static removeKeyById = async (id) => {
-    return await keyTokenModal.findOneAndDelete({
+    return await keyTokenModel.findOneAndDelete({
       _id: new Types.ObjectId(id),
     });
   };
 
   static findByRefreshTokenInRefreshTokensUsed = async (refreshToken) => {
-    return await keyTokenModal
+    return await keyTokenModel
       .findOne({
         refreshTokensUsed: { $in: refreshToken },
       })
@@ -47,7 +47,7 @@ class KeyTokenService {
   };
 
   static findByRefreshToken = async (refreshToken) => {
-    return await keyTokenModal
+    return await keyTokenModel
       .findOne({
         refreshToken,
       })
@@ -55,7 +55,7 @@ class KeyTokenService {
   };
 
   static deleteByUserId = async (userId) => {
-    return await keyTokenModal.findOneAndDelete({
+    return await keyTokenModel.findOneAndDelete({
       user: new Types.ObjectId(userId),
     });
   };
@@ -65,7 +65,7 @@ class KeyTokenService {
     refreshToken,
     newRefreshToken
   ) => {
-    return await keyTokenModal.updateOne(
+    return await keyTokenModel.updateOne(
       { _id: new Types.ObjectId(id) },
       {
         $set: {

@@ -1,10 +1,10 @@
 "use strict";
 
-const apiKeyModal = require("../models/apiKey.modal");
+const apiKeyModel = require("../models/apiKey.model");
 
 class ApiKeyService {
   static findById = async (key) => {
-    return await apiKeyModal.findOne({ key, isActive: true }).lean();
+    return await apiKeyModel.findOne({ key, isActive: true }).lean();
   };
 }
 

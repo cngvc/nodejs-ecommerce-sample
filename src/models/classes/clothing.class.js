@@ -1,13 +1,13 @@
 "use strict";
 
 const Product = require("./product.class");
-const { clothingModal } = require("../product.modal");
+const { clothingModel } = require("../product.model");
 const { BadRequestError } = require("../../core/responses/error.response");
 const ProductRepository = require("../repositories/product.repo");
 
 class Clothing extends Product {
   async createProduct() {
-    const newClothing = await clothingModal.create({
+    const newClothing = await clothingModel.create({
       ...this.attributes,
       shop: this.shop,
     });
@@ -27,7 +27,7 @@ class Clothing extends Product {
       await ProductRepository.update({
         id: productId,
         payload: flattenNestedObject(payload.attributes),
-        model: clothingModal,
+        model: clothingModel,
       });
     }
     return await super.updateProduct(productId, flattenNestedObject(payload));
