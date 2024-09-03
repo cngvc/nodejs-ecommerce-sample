@@ -7,36 +7,36 @@ x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d41
 x-client-id: 66d1bea3afc997054e986917
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmQxYmVhM2FmYzk5NzA1NGU5ODY5MTciLCJlbWFpbCI6ImpvaG5kb2UrMUBnbWFpbC5jb20iLCJpYXQiOjE3MjUyNzA0NTEsImV4cCI6MTcyNTQ0MzI1MX0.DfBBdrDMtcHe-j-hN6ZjxkYmoAWVA4o7OhXIVd2ylxI
 
-# {
-#   "name": "Samsung Galaxy S22",
-#   "thumb": "https://example.com/samsung-galaxy-s22-thumb.jpg",
-#   "description": "Latest Samsung flagship smartphone with advanced features.",
-#   "price": 799.99,
-#   "quantity": 50,
-#   "type": "Electronic",
-#   "attributes": {
-#     "manufacturer": "Samsung",
-#     "model": "Galaxy S22",
-#     "color": "Phantom Gray"
-#   }
-# }
-
 {
-  "name": "iPhone 14 Pro Max",
-  "thumb": "https://example.com/iphone-14-pro-max-thumb.jpg",
-  "description": "Latest Apple iPhone with advanced camera system and A16 Bionic chip.",
-  "price": 1099.99,
-  "quantity": 30,
+  "name": "Samsung Galaxy S22",
+  "thumb": "https://example.com/samsung-galaxy-s22-thumb.jpg",
+  "description": "Latest Samsung flagship smartphone with advanced features.",
+  "price": 799.99,
+  "quantity": 50,
   "type": "Electronic",
   "attributes": {
-    "manufacturer": "Apple",
-    "model": "iPhone 14 Pro Max",
-    "color": "Space Black"
+    "manufacturer": "Samsung",
+    "model": "Galaxy S22",
+    "color": "Phantom Gray"
   }
 }
 
+# {
+#   "name": "iPhone 14 Pro Max",
+#   "thumb": "https://example.com/iphone-14-pro-max-thumb.jpg",
+#   "description": "Latest Apple iPhone with advanced camera system and A16 Bionic chip.",
+#   "price": 1099.99,
+#   "quantity": 30,
+#   "type": "Electronic",
+#   "attributes": {
+#     "manufacturer": "Apple",
+#     "model": "iPhone 14 Pro Max",
+#     "color": "Space Black"
+#   }
+# }
+
 ### update product
-PATCH {{url_dev}}/products/66d5dfe88c0d107879c5bb25
+PATCH {{url_dev}}/products/66d6d2c8403791e1c06ed321
 Content-Type: application/json
 x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d412dd28ffe281525915e92f596670681193c32076cd0dd7f0427e6cd0300c
 x-client-id: 66d1bea3afc997054e986917
@@ -54,17 +54,17 @@ authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmQxYmVhM2Fm
 }
 
 ### get all products
-GET  {{url_dev}}/products?limit=5&skip=0
+GET  {{url_dev}}/public-products?limit=5&skip=0
 Content-Type: application/json
 x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d412dd28ffe281525915e92f596670681193c32076cd0dd7f0427e6cd0300c
  
 ### get one products
-GET  {{url_dev}}/products/66d58a72a08569f25df2a673
+GET  {{url_dev}}/public-products/66d6cefc93a5d95cd557d747
 Content-Type: application/json
 x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d412dd28ffe281525915e92f596670681193c32076cd0dd7f0427e6cd0300c
  
 ### search products
-GET  {{url_dev}}/products/search?q=galaxy
+GET  {{url_dev}}/public-products/search?q=Iphone
 Content-Type: application/json
 x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d412dd28ffe281525915e92f596670681193c32076cd0dd7f0427e6cd0300c
  
@@ -76,7 +76,7 @@ x-client-id: 66d1bea3afc997054e986917
 authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmQxYmVhM2FmYzk5NzA1NGU5ODY5MTciLCJlbWFpbCI6ImpvaG5kb2UrMUBnbWFpbC5jb20iLCJpYXQiOjE3MjUyNzA0NTEsImV4cCI6MTcyNTQ0MzI1MX0.DfBBdrDMtcHe-j-hN6ZjxkYmoAWVA4o7OhXIVd2ylxI
  
 ### publish products
-PUT  {{url_dev}}/products/publish-product/66d5dfe88c0d107879c5bb25
+PUT  {{url_dev}}/products/publish-product/66d6cefc93a5d95cd557d747
 Content-Type: application/json
 x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d412dd28ffe281525915e92f596670681193c32076cd0dd7f0427e6cd0300c
 x-client-id: 66d1bea3afc997054e986917

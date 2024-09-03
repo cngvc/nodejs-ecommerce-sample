@@ -36,11 +36,11 @@ const discountSchema = new Schema(
       type: Date,
       required: true,
     },
-    maxUsage: {
+    maxUses: {
       type: Number,
       required: true,
     },
-    usersCount: {
+    usesCount: {
       type: Number,
       required: true,
     },
@@ -48,7 +48,7 @@ const discountSchema = new Schema(
       type: Array,
       default: [],
     },
-    maxUsagePerUser: {
+    maxUsesPerUser: {
       type: Number,
       require: true,
     },
@@ -65,7 +65,7 @@ const discountSchema = new Schema(
       type: Boolean,
       default: true,
     },
-    appliedTo: {
+    appliesTo: {
       type: String,
       required: true,
       enum: ["all", "specific"],

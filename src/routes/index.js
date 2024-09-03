@@ -12,6 +12,7 @@ router.use(apiKey);
 router.use(permission(1));
 
 router.use("/v1/api/products", require("./product.route"));
+router.use("/v1/api/public-products", require("./publicProduct.route"));
 router.use("/v1/api/auth", require("./access.route"));
 
 module.exports = router;

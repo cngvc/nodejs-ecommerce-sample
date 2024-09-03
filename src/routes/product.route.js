@@ -6,14 +6,7 @@ const { asyncHandler } = require("../helpers/asyncHandler");
 const { validateAuthentication } = require("../utils/auth.utils");
 const router = express.Router();
 
-router.get("/search", asyncHandler(productsController.getListSearchProduct));
-router.get("/", asyncHandler(productsController.getAll));
-router.get("/:id", asyncHandler(productsController.getOne));
-
 router.use(asyncHandler(validateAuthentication));
-router.post("/", asyncHandler(productsController.createProduct));
-router.patch("/:id", asyncHandler(productsController.updateProduct));
-
 router.put(
   "/publish-product/:id",
   asyncHandler(productsController.publishByShop)
@@ -28,5 +21,7 @@ router.get(
   "/published",
   asyncHandler(productsController.getAllPublishedByShop)
 );
+router.patch("/:id", asyncHandler(productsController.updateProduct));
+router.post("/", asyncHandler(productsController.createProduct));
 
 module.exports = router;

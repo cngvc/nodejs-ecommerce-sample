@@ -50,13 +50,14 @@ class ProductService {
     });
   };
 
-  static findAllDraftByShop = async ({ shop, limit = 50, skip = 0 }) => {
-    const query = { shop, isDraft: true };
+  static findAllDraftByShop = async ({ shopId, limit = 50, skip = 0 }) => {
+    const query = { shop: shopId, isDraft: true };
+    console.log("query", query);
     return await ProductRepository.find({ query, limit, skip });
   };
 
-  static findAllPublishedByShop = async ({ shop, limit = 50, skip = 0 }) => {
-    const query = { shop, isPublished: true };
+  static findAllPublishedByShop = async ({ shopId, limit = 50, skip = 0 }) => {
+    const query = { shop: shopId, isPublished: true };
     return await ProductRepository.find({ query, limit, skip });
   };
 

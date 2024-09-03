@@ -21,8 +21,7 @@ class ProductController {
 
   updateProduct = async (req, res) => {
     const data = req.body;
-
-    return new CreatedRequestSuccess({
+    return new OkRequestSuccess({
       message: "Updated product successfully",
       metadata: await ProductService.updateProduct(data.type, req.params.id, {
         ...data,
@@ -48,7 +47,7 @@ class ProductController {
   getAllDraftsByShop = async (req, res) => {
     return new OkRequestSuccess({
       metadata: await ProductService.findAllDraftByShop({
-        shop: req.user.userId,
+        shopId: req.user.userId,
       }),
     }).send(res);
   };
@@ -56,7 +55,7 @@ class ProductController {
   getAllPublishedByShop = async (req, res) => {
     return new OkRequestSuccess({
       metadata: await ProductService.findAllPublishedByShop({
-        shop: req.user.userId,
+        shopId: req.user.userId,
       }),
     }).send(res);
   };
