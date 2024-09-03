@@ -3,6 +3,7 @@
 const pick = require("lodash/pick");
 const pickBy = require("lodash/pickBy");
 const identity = require("lodash/identity");
+const { Types } = require("mongoose");
 
 const projectionData = ({ fields = [], object = {} }) => {
   return pick(object, fields);
@@ -18,6 +19,13 @@ const unselectData = (select = []) => {
 
 const deleteFalsely = (obj) => {
   return pickBy(obj, identity);
+};
+
+const convertToObjectId = (val) => {
+  if (Array.isArray(val)) {
+    return val.map((e) => new Types.ObjectId(e));
+  }
+  return new Types.ObjectId(val);
 };
 
 const flattenNestedObject = (obj, prefix = "", result = {}) => {
@@ -38,4 +46,5 @@ module.exports = {
   unselectData,
   deleteFalsely,
   flattenNestedObject,
+  convertToObjectId,
 };

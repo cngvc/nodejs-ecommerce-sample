@@ -1,7 +1,7 @@
 "use strict";
 
 const express = require("express");
-const productsController = require("../controllers/product.controller");
+const ProductsController = require("../controllers/product.controller");
 const { asyncHandler } = require("../helpers/asyncHandler");
 const { validateAuthentication } = require("../utils/auth.utils");
 const router = express.Router();
@@ -9,19 +9,19 @@ const router = express.Router();
 router.use(asyncHandler(validateAuthentication));
 router.put(
   "/publish-product/:id",
-  asyncHandler(productsController.publishByShop)
+  asyncHandler(ProductsController.publishByShop)
 );
 router.put(
   "/unpublish-product/:id",
-  asyncHandler(productsController.unpublishByShop)
+  asyncHandler(ProductsController.unpublishByShop)
 );
 
-router.get("/drafts", asyncHandler(productsController.getAllDraftsByShop));
+router.get("/drafts", asyncHandler(ProductsController.getAllDraftsByShop));
 router.get(
   "/published",
-  asyncHandler(productsController.getAllPublishedByShop)
+  asyncHandler(ProductsController.getAllPublishedByShop)
 );
-router.patch("/:id", asyncHandler(productsController.updateProduct));
-router.post("/", asyncHandler(productsController.createProduct));
+router.patch("/:id", asyncHandler(ProductsController.updateProduct));
+router.post("/", asyncHandler(ProductsController.createProduct));
 
 module.exports = router;

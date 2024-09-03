@@ -2,8 +2,8 @@
 
 const discountModel = require("../models/discount.model");
 const { BadRequestError } = require("../core/responses/error.response");
-const { Types } = require("mongoose");
 const ProductRepository = require("../models/repositories/product.repo");
+const { convertToObjectId } = require("../utils/mongo.utils");
 
 class DiscountService {
   static createDiscount = async (payload) => {
@@ -18,14 +18,13 @@ class DiscountService {
       maxUses,
       maxUsesPerUser,
       minOrderValue,
-      userId,
+      shop,
       isActive,
       appliesTo,
       productIds,
     } = payload;
     if (
       new Date() > new Date(endDate) ||
-      new Date() < new Date(startDate) ||
       new Date(startDate) >= new Date(endDate)
     ) {
       throw new BadRequestError("Discount dates invalid");
@@ -33,7 +32,7 @@ class DiscountService {
 
     const foundDiscount = await discountModel.findOne({
       code,
-      shop: new Types.ObjectId(userId),
+      shop,
       isActive: true,
     });
     if (foundDiscount) {
@@ -51,10 +50,11 @@ class DiscountService {
       maxUses,
       maxUsesPerUser,
       minOrderValue,
-      shop: new Types.ObjectId(shopId),
+      shop,
       isActive,
       appliesTo,
       productIds,
+      usesCount: 0,
     });
 
     return newDiscount;
@@ -65,13 +65,12 @@ class DiscountService {
   static findProductsByDiscount = async ({
     code,
     shopId,
-    userId,
-    limit,
-    page,
+    limit = 50,
+    page = 1,
   }) => {
-    const foundDiscount = await discountModel.find({
+    const foundDiscount = await discountModel.findOne({
       code,
-      shop: new Types.ObjectId(shopId),
+      shop: convertToObjectId(shopId),
       isActive: true,
     });
     if (!foundDiscount) {
@@ -80,11 +79,25 @@ class DiscountService {
     let products = [];
     if (foundDiscount.appliesTo === "all") {
       products = await ProductRepository.findAll({
+        filter: {},
+        limit,
+        page,
+        select: ["name"],
+      });
+    } else if (foundDiscount.appliesTo === "specific") {
+      products = await ProductRepository.findAll({
         filter: {
-          shopId: req.user.shopId,
+          _id: {
+            $in: convertToObjectId(foundDiscount.productIds),
+          },
+          shop: req.user.shopId,
         },
+        limit,
+        page,
+        select: ["name"],
       });
     }
+    return products;
   };
 }
 

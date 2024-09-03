@@ -1,12 +1,12 @@
 "use strict";
 
 const express = require("express");
-const productsController = require("../controllers/product.controller");
+const ProductsController = require("../controllers/product.controller");
 const { asyncHandler } = require("../helpers/asyncHandler");
 const router = express.Router();
 
-router.get("/search", asyncHandler(productsController.getListSearchProduct));
-router.get("/:id", asyncHandler(productsController.getOne));
-router.get("/", asyncHandler(productsController.getAll));
+router.get("/search", asyncHandler(ProductsController.getListSearchProduct));
+router.get("/:id", asyncHandler(ProductsController.getOne));
+router.get("/", asyncHandler(ProductsController.getAll));
 
 module.exports = router;

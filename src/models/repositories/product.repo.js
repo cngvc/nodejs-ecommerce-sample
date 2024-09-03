@@ -2,7 +2,11 @@
 
 const { Types } = require("mongoose");
 const { productModel } = require("../product.model");
-const { selectData, unselectData } = require("../../utils/mongo.utils");
+const {
+  selectData,
+  unselectData,
+  convertToObjectId,
+} = require("../../utils/mongo.utils");
 
 const queryProducts = async ({ query, limit, skip }) => {
   return await productModel
@@ -31,7 +35,7 @@ class ProductRepository {
 
   static findOne = async ({ id, unselect }) => {
     return await productModel
-      .findOne({ _id: new Types.ObjectId(id) })
+      .findOne({ _id: convertToObjectId(id) })
       .select(unselectData(unselect))
       .lean();
   };
@@ -61,8 +65,8 @@ class ProductRepository {
 
   static publishByShop = async ({ shopId, id }) => {
     const foundShop = await productModel.findOne({
-      shop: new Types.ObjectId(shopId),
-      _id: new Types.ObjectId(id),
+      shop: convertToObjectId(shopId),
+      _id: convertToObjectId(id),
     });
     if (!foundShop) return null;
     foundShop.isDraft = false;
@@ -73,8 +77,8 @@ class ProductRepository {
 
   static unpublishByShop = async ({ shopId, id }) => {
     const foundShop = await productModel.findOne({
-      shop: new Types.ObjectId(shopId),
-      _id: new Types.ObjectId(id),
+      shop: convertToObjectId(shopId),
+      _id: convertToObjectId(id),
     });
     if (!foundShop) return null;
     foundShop.isDraft = true;

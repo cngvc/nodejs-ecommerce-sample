@@ -1,18 +1,18 @@
 "use strict";
 
-const { Types } = require("mongoose");
 const inventoryModel = require("../inventory.model");
+const { convertToObjectId } = require("../../utils/mongo.utils");
 
 class InventoryRepository {
-  static createInventory = async ({
+  static createDiscount = async ({
     productId,
     shopId,
     stock,
     location = "unknown",
   }) => {
     return await inventoryModel.create({
-      product: new Types.ObjectId(productId),
-      shop: new Types.ObjectId(shopId),
+      product: convertToObjectId(productId),
+      shop: convertToObjectId(shopId),
       stock,
       location,
     });
