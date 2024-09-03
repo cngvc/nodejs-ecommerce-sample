@@ -19,10 +19,22 @@ class ProductController {
     }).send(res);
   };
 
+  updateProduct = async (req, res) => {
+    const data = req.body;
+
+    return new CreatedRequestSuccess({
+      message: "Updated product successfully",
+      metadata: await ProductService.updateProduct(data.type, req.params.id, {
+        ...data,
+        shop: req.user.userId,
+      }),
+    }).send(res);
+  };
+
   getOne = async (req, res) => {
     return new OkRequestSuccess({
       metadata: await ProductService.findOne({
-        product: req.params.product,
+        id: req.params.id,
       }),
     }).send(res);
   };
@@ -61,7 +73,7 @@ class ProductController {
     return new OkRequestSuccess({
       metadata: await ProductService.publishByShop({
         shop: req.user.userId,
-        product: req.params.id,
+        id: req.params.id,
       }),
     }).send(res);
   };
@@ -70,7 +82,7 @@ class ProductController {
     return new OkRequestSuccess({
       metadata: await ProductService.unpublishByShop({
         shop: req.user.userId,
-        product: req.params.id,
+        id: req.params.id,
       }),
     }).send(res);
   };

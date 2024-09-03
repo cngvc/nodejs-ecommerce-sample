@@ -4,11 +4,7 @@ const { SHOP_ROLES } = require("../constants/roles.constant");
 const shopModel = require("../models/shop.modal");
 const KeyTokenService = require("../services/keyToken.service");
 const bcrypt = require("bcrypt");
-const {
-  createTokenPair,
-  generateKeys,
-  verifyJWT,
-} = require("../utils/auth.utils");
+const { createTokenPair, generateKeys } = require("../utils/auth.utils");
 const { projectionData } = require("../utils/mongo.utils");
 const {
   BadRequestError,

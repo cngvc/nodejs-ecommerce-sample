@@ -8,10 +8,11 @@ const router = express.Router();
 
 router.get("/search", asyncHandler(productsController.getListSearchProduct));
 router.get("/", asyncHandler(productsController.getAll));
-router.get("/:product", asyncHandler(productsController.getOne));
+router.get("/:id", asyncHandler(productsController.getOne));
 
 router.use(asyncHandler(validateAuthentication));
 router.post("/", asyncHandler(productsController.createProduct));
+router.patch("/:id", asyncHandler(productsController.updateProduct));
 
 router.put(
   "/publish-product/:id",

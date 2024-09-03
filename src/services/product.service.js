@@ -1,15 +1,9 @@
 "use strict";
 
-const { BadRequestError } = require("../core/responses/error.response");
-const {
-  productModal,
-  clothingModal,
-  electronicModal,
-  furnitureModal,
-} = require("../models/product.modal");
+const ProductFactory = require("../factories/product.factory");
 const ProductRepository = require("../models/repositories/product.repo");
 
-class ProductFactory {
+class ProductService {
   static productRegistry = {};
 
   static registerProductType = (type, classRef) => {
@@ -17,20 +11,22 @@ class ProductFactory {
   };
 
   static createProduct = async (type, payload) => {
-    const productClass = ProductFactory.productRegistry[type];
-    if (!productClass) {
-      throw new BadRequestError("Invalid product type");
-    }
-    return new productClass(payload).createProduct();
+    const product = ProductFactory.createProductInstance(type, payload);
+    return await product.createProduct();
+  };
+
+  static updateProduct = async (type, id, payload) => {
+    const product = ProductFactory.createProductInstance(type, payload);
+    return await product.updateProduct(id);
   };
 
   static searchByUser = async ({ keySearch }) => {
     return await ProductRepository.searchByUser({ keySearch });
   };
 
-  static findOne = async ({ product }) => {
+  static findOne = async ({ id }) => {
     return await ProductRepository.findOne({
-      product,
+      id,
       unselect: ["__v"],
     });
   };
@@ -55,94 +51,13 @@ class ProductFactory {
     return await ProductRepository.find({ query, limit, skip });
   };
 
-  static publishByShop = async ({ shop, product }) => {
-    return await ProductRepository.publishByShop({ shop, product });
+  static publishByShop = async ({ shop, id }) => {
+    return await ProductRepository.publishByShop({ shop, id });
   };
 
-  static unpublishByShop = async ({ shop, product }) => {
-    return await ProductRepository.unpublishByShop({ shop, product });
+  static unpublishByShop = async ({ shop, id }) => {
+    return await ProductRepository.unpublishByShop({ shop, id });
   };
 }
 
-class Product {
-  constructor({
-    name,
-    thumb,
-    description,
-    price,
-    quantity,
-    type,
-    shop,
-    attributes,
-  }) {
-    this.name = name;
-    this.thumb = thumb;
-    this.description = description;
-    this.price = price;
-    this.quantity = quantity;
-    this.type = type;
-    this.shop = shop;
-    this.attributes = attributes;
-  }
-
-  async createProduct(_id) {
-    return await productModal.create({ ...this, _id });
-  }
-}
-
-class Clothing extends Product {
-  async createProduct() {
-    const newClothing = await clothingModal.create({
-      ...this.attributes,
-      shop: this.shop,
-    });
-    if (!newClothing) {
-      throw new BadRequestError("New clothing created error");
-    }
-    const newProduct = await super.createProduct();
-    if (!newProduct) {
-      throw new BadRequestError("New product created error");
-    }
-    return newProduct;
-  }
-}
-
-class Electronic extends Product {
-  async createProduct() {
-    const newElectronic = await electronicModal.create({
-      ...this.attributes,
-      shop: this.shop,
-    });
-    if (!newElectronic) {
-      throw new BadRequestError("New electronic created error");
-    }
-    const newProduct = await super.createProduct(newElectronic._id);
-    if (!newProduct) {
-      throw new BadRequestError("New product created error");
-    }
-    return newProduct;
-  }
-}
-
-class Furniture extends Product {
-  async createProduct() {
-    const newFurniture = await furnitureModal.create({
-      ...this.attributes,
-      shop: this.shop,
-    });
-    if (!newFurniture) {
-      throw new BadRequestError("New furniture created error");
-    }
-    const newProduct = await super.createProduct(newElectronic._id);
-    if (!newProduct) {
-      throw new BadRequestError("New product created error");
-    }
-    return newProduct;
-  }
-}
-
-ProductFactory.registerProductType("Clothing", Clothing);
-ProductFactory.registerProductType("Electronic", Electronic);
-ProductFactory.registerProductType("Furniture", Furniture);
-
-module.exports = ProductFactory;
+module.exports = ProductService;
