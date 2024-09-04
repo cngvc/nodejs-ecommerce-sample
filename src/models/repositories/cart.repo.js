@@ -21,15 +21,24 @@ class CartRepository {
 
   static updateCartItemQuantity = async ({ userId, product }) => {
     const { id, quantity } = product;
-    return await cartModel.findOneAndUpdate(
-      { user: userId, state: "active", "products.id": id },
-      {
-        $inc: {
-          "products.$.quantity": quantity,
-        },
-      },
-      { upsert: true, new: true }
+    const foundCart = await cartModel.findOne({
+      user: userId,
+      state: "active",
+    });
+    if (!foundCart) {
+      throw new NotFoundError("Cart not found");
+    }
+    const productIndex = foundCart.products.findIndex(
+      (product) => product.id.toString() === id.toString()
     );
+    if (productIndex >= 0) {
+      foundCart.products[productIndex].quantity += quantity;
+    } else {
+      foundCart.products.push(product);
+    }
+    foundCart.markModified("products");
+    await foundCart.save();
+    return foundCart;
   };
 
   static deleteItemInCart = async ({ userId, productId }) => {

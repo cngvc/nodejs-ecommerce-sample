@@ -2,6 +2,7 @@
 
 const { randomBytes } = require("node:crypto");
 const apiKeyModel = require("../models/apiKey.model");
+const discountModel = require("../models/discount.model");
 const keyTokenModel = require("../models/keyToken.model");
 const shopModel = require("../models/shop.model");
 const { productModel, electronicModel } = require("../models/product.model");
@@ -17,6 +18,7 @@ class DbSeed {
     // await electronicModel.deleteMany({});
     // await inventoryModel.deleteMany({});
     // await cartModel.deleteMany({});
+    // await discountModel.deleteMany({});
 
     const key = await apiKeyModel.findOne({ isActive: true });
     if (!key) {

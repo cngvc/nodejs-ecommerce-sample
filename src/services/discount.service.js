@@ -171,6 +171,7 @@ class DiscountService {
         ? foundDiscount.value
         : totalOrder * (foundDiscount.value / 100);
 
+    console.log("discountAmount", totalOrder, foundDiscount.value);
     return {
       totalOrder,
       discountAmount,

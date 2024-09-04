@@ -6,10 +6,6 @@ const { asyncHandler } = require("../helpers/asyncHandler");
 const { validateAuthentication } = require("../utils/auth.utils");
 const router = express.Router();
 
-router.get(
-  "/products",
-  asyncHandler(DiscountController.findProductsByDiscount)
-);
 router.post(
   "/calculate-amount",
   asyncHandler(DiscountController.calculateDiscountAmount)

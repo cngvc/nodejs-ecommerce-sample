@@ -40,7 +40,7 @@ class ProductRepository {
       .lean();
   };
 
-  static findOneById = async ({ id }) => {
+  static findById = async ({ id }) => {
     return await productModel.findOne({ _id: convertToObjectId(id) }).lean();
   };
 
@@ -95,6 +95,22 @@ class ProductRepository {
     return await model.findByIdAndUpdate(id, payload, {
       new: isNew,
     });
+  };
+
+  static findProductsForCheckout = async (products) => {
+    return await Promise.all(
+      products.map(async (p) => {
+        const foundProduct = await ProductRepository.findById({ id: p.id });
+        if (foundProduct) {
+          return {
+            price: foundProduct.price,
+            quantity: p.quantity,
+            id: p.id,
+          };
+        }
+        return null;
+      })
+    );
   };
 }
 

@@ -20,26 +20,30 @@ class CartService {
     });
   };
 
-  static addToCart = async ({ userId, product = {} }) => {
-    const { id, quantity, oldQuantity = 0, shop } = product;
-    const foundProduct = await ProductRepository.findOneById({ id });
-    if (!foundProduct) {
-      throw new NotFoundError("Product not found");
-    }
-    if (foundProduct.shop.toString() !== shop.toString()) {
-      throw new NotFoundError("Product do not belong to this shop");
-    }
-    if (quantity === 0) {
-      // delete
+  static addToCart = async ({ userId, shopOrders = [] }) => {
+    for (const shopOrder of shopOrders) {
+      for (const itemProduct of shopOrder.itemProducts) {
+        const { id, quantity, oldQuantity = 0 } = itemProduct;
+        const { shopId } = shopOrder;
+        const foundProduct = await ProductRepository.findById({ id });
+        if (!foundProduct) {
+          throw new NotFoundError("Product not found");
+        }
+        if (foundProduct.shop.toString() !== shopId.toString()) {
+          throw new NotFoundError("Product do not belong to this shop");
+        }
+        await CartRepository.updateCartItemQuantity({
+          userId,
+          product: {
+            id,
+            shop: shopId,
+            quantity: quantity - oldQuantity,
+          },
+        });
+      }
     }
 
-    return await CartRepository.updateCartItemQuantity({
-      userId,
-      product: {
-        id,
-        quantity: quantity - oldQuantity,
-      },
-    });
+    return await CartRepository.findByUserId({ userId });
   };
 
   static deleteItemInCart = async ({ userId, productId }) => {

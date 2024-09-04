@@ -1,0 +1,40 @@
+@url_dev=http://localhost:3055/v1/api
+
+### checkout review
+POST {{url_dev}}/checkouts/review
+Content-Type: application/json
+x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d412dd28ffe281525915e92f596670681193c32076cd0dd7f0427e6cd0300c
+
+{
+  "userId": 1,
+  "shopOrders": [
+    {
+      "shopId": "66d83396af16caa8db59b1bd",
+      "discounts": [],
+      "itemProducts": [
+        {
+          "id": "66d857f46b05d3a330975353",
+          "shop": "66d83396af16caa8db59b1bd",
+          "quantity": 6,
+          "oldQuantity": 5
+        }
+      ]
+    },
+    {
+      "shopId": "66d83376af16caa8db59b1b8",
+      "discounts": [{
+        "code": "WINTER2024"
+      }, {
+        "code": "WINTER2024-2"
+      }],
+      "itemProducts": [
+        {
+          "id": "66d858436b05d3a330975367",
+          "shop": "66d83376af16caa8db59b1b8",
+          "quantity": 8,
+          "oldQuantity": 1
+        }
+      ]
+    }
+  ]
+}

@@ -4,23 +4,40 @@
 POST {{url_dev}}/discounts/
 Content-Type: application/json
 x-api-key: 901ad9efc6f626c3962a06bccb0311a98aabac0bd42cd000e0c29d64c257348721d412dd28ffe281525915e92f596670681193c32076cd0dd7f0427e6cd0300c
-x-client-id: 66d1bea3afc997054e986917
-authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmQxYmVhM2FmYzk5NzA1NGU5ODY5MTciLCJlbWFpbCI6ImpvaG5kb2UrMUBnbWFpbC5jb20iLCJpYXQiOjE3MjUzNTYzNzQsImV4cCI6MTcyNTUyOTE3NH0.RuqNbPkjykE3btp8lrv--gxnQTT6-3LEHpHiIgVs5n0
+x-client-id: 66d83376af16caa8db59b1b8
+authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NmQ4MzM3NmFmMTZjYWE4ZGI1OWIxYjgiLCJlbWFpbCI6ImpvaG5kb2UrMUBnbWFpbC5jb20iLCJpYXQiOjE3MjU0NTcyNzIsImV4cCI6MTcyNTYzMDA3Mn0.o5WcSXDZoikvhUluds0KH0b3bgIB2AqN099PbKtAKf4
+
+# {
+#   "name": "Summer Sale",
+#   "description": "Get 25% off all items during the summer sale!",
+#   "type": "percentage",
+#   "value": 20,
+#   "code": "SUMMER2024",
+#   "startDate": "2024-09-04T00:00:00Z",
+#   "endDate": "2024-09-30T23:59:59Z",
+#   "maxUses": 10000,
+#   "usesCount": 800,
+#   "usersUsed": [],
+#   "maxUsesPerUser": 5,
+#   "minOrderValue": 100,
+#   "isActive": true,
+#   "appliesTo": "all",
+#   "productIds": []
+# }
 
 {
-  "name": "Summer Sale",
-  "description": "Get 30% off all items during the summer sale!",
+  "name": "Winter Sale 2",
+  "description": "Get 25% off all items during the winter sale!",
   "type": "percentage",
-  "value": 30,
-  "code": "SUMMER2024",
+  "value": 15,
+  "code": "WINTER2024-2",
   "startDate": "2024-09-04T00:00:00Z",
   "endDate": "2024-09-30T23:59:59Z",
-  "maxUses": 1000,
-  "usesCount": 500,
+  "maxUses": 10000,
+  "usesCount": 800,
   "usersUsed": [],
-  "maxUsesPerUser": 2,
-  "minOrderValue": 50,
-  "shop": "66d1bea3afc997054e986917",
+  "maxUsesPerUser": 5,
+  "minOrderValue": 100,
   "isActive": true,
   "appliesTo": "all",
   "productIds": []
