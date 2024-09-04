@@ -6,6 +6,7 @@ const keyTokenModel = require("../models/keyToken.model");
 const shopModel = require("../models/shop.model");
 const { productModel, electronicModel } = require("../models/product.model");
 const inventoryModel = require("../models/inventory.model");
+const cartModel = require("../models/cart.model");
 
 class DbSeed {
   static createDbSeed = async () => {
@@ -15,6 +16,7 @@ class DbSeed {
     // await productModel.deleteMany({});
     // await electronicModel.deleteMany({});
     // await inventoryModel.deleteMany({});
+    // await cartModel.deleteMany({});
 
     const key = await apiKeyModel.findOne({ isActive: true });
     if (!key) {

@@ -40,7 +40,11 @@ class ProductRepository {
       .lean();
   };
 
-  static findMany = async ({ query, limit, skip }) => {
+  static findOneById = async ({ id }) => {
+    return await productModel.findOne({ _id: convertToObjectId(id) }).lean();
+  };
+
+  static find = async ({ query, limit, skip }) => {
     return await queryProducts({ query, limit, skip });
   };
 

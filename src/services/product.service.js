@@ -46,18 +46,18 @@ class ProductService {
       sort,
       page,
       filter,
-      select: ["name", "price", "thumb"],
+      select: ["name", "price", "thumb", "shop"],
     });
   };
 
   static findDraftByShop = async ({ shopId, limit = 50, skip = 0 }) => {
     const query = { shop: shopId, isDraft: true };
-    return await ProductRepository.findMany({ query, limit, skip });
+    return await ProductRepository.find({ query, limit, skip });
   };
 
   static findPublishedByShop = async ({ shopId, limit = 50, skip = 0 }) => {
     const query = { shop: shopId, isPublished: true };
-    return await ProductRepository.findMany({ query, limit, skip });
+    return await ProductRepository.find({ query, limit, skip });
   };
 
   static publishByShop = async ({ shopId, id }) => {

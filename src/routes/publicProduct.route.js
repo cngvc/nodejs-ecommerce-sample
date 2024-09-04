@@ -6,7 +6,7 @@ const { asyncHandler } = require("../helpers/asyncHandler");
 const router = express.Router();
 
 router.get("/search", asyncHandler(ProductsController.getListSearchProduct));
-router.get("/:id", asyncHandler(ProductsController.getOne));
-router.get("/", asyncHandler(ProductsController.getMany));
+router.get("/:id", asyncHandler(ProductsController.findOne));
+router.get("/", asyncHandler(ProductsController.findMany));
 
 module.exports = router;

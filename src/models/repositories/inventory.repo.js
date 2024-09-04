@@ -4,7 +4,7 @@ const inventoryModel = require("../inventory.model");
 const { convertToObjectId } = require("../../utils/mongo.utils");
 
 class InventoryRepository {
-  static createDiscount = async ({
+  static createInventory = async ({
     productId,
     shopId,
     stock,

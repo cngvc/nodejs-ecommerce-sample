@@ -30,16 +30,16 @@ class DiscountService {
     if (new Date(startDate) >= new Date(endDate)) {
       throw new BadRequestError("Discount dates invalid");
     }
-
-    const foundDiscount = await discountModel.findOne({
-      code,
-      shop,
-      isActive: true,
+    const foundDiscount = await DiscountRepository.findOne({
+      filter: {
+        code,
+        shop,
+        isActive: true,
+      },
     });
     if (foundDiscount) {
       throw new BadRequestError("Discount exists");
     }
-
     const newDiscount = await discountModel.create({
       name,
       description,

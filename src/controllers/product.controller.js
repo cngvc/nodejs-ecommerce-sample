@@ -30,7 +30,7 @@ class ProductController {
     }).send(res);
   };
 
-  getOne = async (req, res) => {
+  findOne = async (req, res) => {
     return new OkRequestSuccess({
       metadata: await ProductService.findOne({
         id: req.params.id,
@@ -38,7 +38,7 @@ class ProductController {
     }).send(res);
   };
 
-  getMany = async (req, res) => {
+  findMany = async (req, res) => {
     return new OkRequestSuccess({
       metadata: await ProductService.find(req.query),
     }).send(res);
