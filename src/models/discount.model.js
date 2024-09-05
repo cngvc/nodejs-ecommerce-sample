@@ -50,11 +50,11 @@ const discountSchema = new Schema(
     },
     maxUsesPerUser: {
       type: Number,
-      require: true,
+      required: true,
     },
     minOrderValue: {
       type: Number,
-      require: true,
+      required: true,
     },
     shop: {
       type: Schema.Types.ObjectId,

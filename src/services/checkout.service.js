@@ -3,8 +3,11 @@
 const CartRepository = require("../models/repositories/cart.repo");
 const ProductRepository = require("../models/repositories/product.repo");
 const DiscountService = require("../services/discount.service");
+const InventoryService = require("../services/inventory.service");
 const { convertToObjectId } = require("../utils/mongo.utils");
 const { BadRequestError } = require("../core/responses/error.response");
+const redisServiceInstance = require("../services/redis.service");
+const orderModel = require("../models/order.model");
 
 class CheckoutService {
   static checkoutReview = async ({ cartId, userId, shopOrders = [] }) => {
@@ -70,6 +73,62 @@ class CheckoutService {
       newShopOrders,
     };
   };
+
+  static orderByUser = async ({
+    shopOrders,
+    cardId,
+    userId,
+    userAddress,
+    userPayment,
+  }) => {
+    const { checkoutOrder, newShopOrders } = CheckoutService.checkoutReview({
+      cartId,
+      userId,
+      shopOrders,
+    });
+    const products = checkoutOrder.flapMap((order) => order.itemProducts);
+
+    const acquireProducts = [];
+    for await (const product of products) {
+      const { id, quantity } = product;
+      const keyLock = await redisServiceInstance.acquireLock(
+        id,
+        quantity,
+        cardId
+      );
+      acquireProducts.push(!!keyLock);
+      if (keyLock) {
+        await redisServiceInstance.releaseLock(keyLock);
+      }
+    }
+
+    if (acquireProducts.includes(false)) {
+      throw new BadRequestError(
+        "Some of goods have been updated, please check your cart again"
+      );
+    }
+
+    const newOrder = await orderModel.create({
+      userId,
+      checkoutOrder,
+      shipping: userAddress,
+      payment: userPayment,
+      products: newShopOrders,
+    });
+
+    if (newOrder) {
+    }
+
+    return newOrder;
+  };
+
+  static findOrdersByUser = ({}) => {};
+
+  static findOneOrderByUser = ({}) => {};
+
+  static cancelOrderByUser = ({}) => {};
+
+  static updateOrderStatusByShop = ({}) => {};
 }
 
 module.exports = CheckoutService;
